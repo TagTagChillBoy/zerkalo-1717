@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Азбука забытых слов — Словарь из «Юности честное зерцало»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for alphabet page */
+        .alphabet-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .alphabet-intro {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(145deg, rgba(253, 245, 230, 0.9), rgba(232, 212, 176, 0.4));
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(184, 134, 11, 0.3);
+        }
+
+        .alphabet-intro h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            color: var(--dark-brown);
+            margin-bottom: 15px;
+        }
+
+        .alphabet-intro p {
+            font-size: 1.1rem;
+            color: var(--dark-brown);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .letter-card {
+            background: linear-gradient(145deg, var(--ivory), var(--paper));
+            border: 2px solid rgba(184, 134, 11, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(62, 39, 35, 0.1);
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(62, 39, 35, 0.15);
+            border-color: var(--gold);
+        }
+
+        .letter-card.empty {
+            background: linear-gradient(145deg, rgba(253, 245, 230, 0.5), rgba(232, 212, 176, 0.2));
+            border-style: dashed;
+        }
+
+        .letter-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--copper), var(--gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #3E2723;
+            box-shadow: 0 2px 8px rgba(184, 134, 11, 0.4);
+        }
+
+        .letter-card.empty .letter-badge {
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.3), rgba(184, 134, 11, 0.5));
+        }
+
+        .alphabet-word {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-top: 15px;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .alphabet-meaning {
+            font-size: 0.95rem;
+            color: var(--dark-brown);
+            opacity: 0.85;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .alphabet-example {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: rgba(62, 39, 35, 0.7);
+            border-left: 3px solid var(--gold);
+            padding-left: 12px;
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+
+        .alphabet-category {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, var(--copper), var(--gold));
+            color: var(--ivory);
+            border-radius: 12px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .empty-text {
+            font-style: italic;
+            color: rgba(62, 39, 35, 0.5);
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 30px 0;
+            padding: 12px 24px;
+            background: var(--dark-brown);
+            color: var(--gold);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--gold);
+            color: var(--dark-brown);
+            transform: translateX(-3px);
+        }
+
+        @media print {
+            .back-link, .random-btn {
+                display: none;
+            }
+
+            .letter-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .alphabet-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="seal">1717</div>
+            <h1 class="site-title">Азбука забытых слов</h1>
+            <p class="subtitle">Из словаря «Юности честное зерцало, или Показание житейского»</p>
+            <div class="vignette">
+                <svg viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 15 Q50 5 100 15 T200 15" fill="none" stroke="#B8860B" stroke-width="1.5"/>
+                    <circle cx="100" cy="15" r="4" fill="#B8860B"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main class="alphabet-page">
+        <div class="alphabet-intro">
+            <h2>📜 Алфавитный плакат</h2>
+            <p>Каждая буква русского алфавита — с забытым словом XVIII века, его значением и примером использования из «Юности честное зерцало». Отличный материал для печати и изучения!</p>
+            <a href="index.html" class="back-link">← Вернуться к словарю</a>
+        </div>
+
+        <div class="alphabet-grid" id="alphabetGrid">
+            <!-- Cards will be generated by JavaScript -->
+        </div>
+
+        <footer class="footer">
+            <div class="footer-seal">Печать 1717 года</div>
+            <p class="footer-text">«Юности честное зерцало, или Показание житейского»</p>
+        </footer>
+    </main>
+
+    <script>
+        // Word data organized by first letter
+        const alphabetWords = {
+            'А': null,
+            'Б': { word: 'БЛЮДОЛИЗ', meaning: 'Прихлебатель, подхалим', example: '«И такие люди бывают только обманщики денежные и блюдолизы»', category: 'архаизм' },
+            'В': [
+                { word: 'ВЕРХОГЛЯД', meaning: 'Поверхностный человек', example: '«Не верхоглядом смотря, надев шляпу...»', category: 'архаизм' },
+                { word: 'ВЗДЕВАТЬ', meaning: 'Надевать на голову', example: '«Не вздевать шляпу пред родителями»', category: 'архаизм' }
+            ],
+            'Г': null,
+            'Д': { word: 'ДАБЫ', meaning: 'Чтобы', example: '«Дабы и ему взаимно помощи рука следовать могла»', category: 'книжное' },
+            'Е': null,
+            'Ё': null,
+            'Ж': null,
+            'З': [
+                { word: 'ЗЕЛО', meaning: 'Очень, весьма', example: '«Прихотливые протари зело не похваляются»', category: 'архаизм' },
+                { word: 'ЗЕРЦАЛО', meaning: 'Зеркало, образец', example: '«Юности честное зерцало»', category: 'изменившее значение' }
+            ],
+            'И': { word: 'ИБО', meaning: 'Потому что', example: '«Ибо когда кто господину верно служит...»', category: 'книжное' },
+            'Й': null,
+            'К': { word: 'КАКОВ ИГУМЕН...', meaning: 'Каков начальник, таковы и подчинённые', example: '«Пословица говорится: каков игумен, такова и братия»', category: 'пословица' },
+            'Л': { word: 'ЛЕПО', meaning: 'Красиво, пристойно', example: '«Украшает девиц безмерно лепо»', category: 'архаизм' },
+            'М': [
+                { word: 'МЗДА', meaning: 'Плата, вознаграждение', example: '«Когда кто их известную мзду задержит...»', category: 'архаизм' },
+                { word: 'МИЛОСЕРДОВАТЬ', meaning: 'Проявлять милосердие', example: '«Человек милосердует о нищем»', category: 'архаизм' }
+            ],
+            'Н': { word: 'НЕ МОЛВЯ СЛОВА...', meaning: 'Не обещай необдуманно', example: '«Не молвя слова крепись, а дав слово держись»', category: 'пословица' },
+            'О': { word: 'ОБИНЯКАМИ', meaning: 'Намёками', example: '«Обиняками говори, чтоб дознаться было невозможно»', category: 'архаизм' },
+            'П': { word: 'ПАКИ', meaning: 'Опять, снова', example: '«Возвратись паки вскоре»', category: 'архаизм' },
+            'Р': { word: 'РАВЕНСТНИКИ', meaning: 'Сверстники', example: '«Которыми он равенстников своих потчует»', category: 'архаизм' },
+            'С': [
+                { word: 'СМИРЕНИЕ — МОЛОДЦУ ОЖЕРЕЛЬЕ', meaning: 'Скромность украшает', example: '«Смирение – молодцу ожерелие»', category: 'пословица' },
+                { word: 'СО ЛЖИ ЛЮДИ НЕ МРУТ...', meaning: 'Ложь разрушает доверие', example: '«Со лжи люди не мрут, а впредь веры не имут»', category: 'пословица' }
+            ],
+            'Т': null,
+            'У': { word: 'УШНОЕ', meaning: 'Похлёбка, суп', example: '«Не дуй в ушное, чтоб везде брызгало»', category: 'архаизм' },
+            'Ф': null,
+            'Х': null,
+            'Ц': { word: 'ЧЕЛЯДИНЕЦ', meaning: 'Слуга', example: '«Служители и челядинцы охотно служат»', category: 'историзм' },
+            'Ч': { word: 'ЧЕРВОТОЧИНА', meaning: 'Дряблость от лени', example: '«Кроме дряхлого тела и червоточины»', category: 'архаизм' },
+            'Ш': { word: 'ШЛЯХТИЧ', meaning: 'Дворянин (польск.)', example: '«Молодой шляхтич должен быть охоч к научению»', category: 'историзм' },
+            'Щ': null,
+            'Ъ': null,
+            'Ы': null,
+            'Ь': null,
+            'Э': { word: 'ЭКЗЕРЦИЦИЯ', meaning: 'Упражнение, выучка', example: '«Если в экзерциции своей совершенен»', category: 'архаизм' },
+            'Ю': null,
+            'Я': null
+        };
+
+        // Proverbs for empty letters
+        const emptyLetterTexts = [
+            '«Кто хранит уста свои, тот хранит душу свою»',
+            '«Умный молчит, а дурак говорит»',
+            '«Честь дороже золота»',
+            '«Скромность — венец добродетели»',
+            '«Слушай, молчи, а потом говори»'
+        ];
+
+        function renderAlphabet() {
+            const grid = document.getElementById('alphabetGrid');
+
+            Object.entries(alphabetWords).forEach(([letter, data]) => {
+                const card = document.createElement('div');
+                card.className = 'letter-card' + (data ? '' : ' empty');
+
+                let content = `<div class="letter-badge">${letter}</div>`;
+
+                if (data) {
+                    if (Array.isArray(data)) {
+                        // Multiple words for this letter
+                        data.forEach(wordData => {
+                            content += `
+                                <div class="alphabet-word">${wordData.word}</div>
+                                <div class="alphabet-meaning">${wordData.meaning}</div>
+                                <span class="alphabet-category">${wordData.category}</span>
+                                <div class="alphabet-example">${wordData.example}</div>
+                            `;
+                        });
+                    } else {
+                        // Single word for this letter
+                        content += `
+                            <div class="alphabet-word">${data.word}</div>
+                            <div class="alphabet-meaning">${data.meaning}</div>
+                            <span class="alphabet-category">${data.category}</span>
+                            <div class="alphabet-example">${data.example}</div>
+                        `;
+                    }
+                } else {
+                    // Empty letter
+                    const randomProverb = emptyLetterTexts[Math.floor(Math.random() * emptyLetterTexts.length)];
+                    content += `<div class="empty-text">На эту букву в XVIII веке не пришлось слов<br><br>${randomProverb}</div>`;
+                }
+
+                card.innerHTML = content;
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAlphabet);
+    </script>
+</body>
+</html>
