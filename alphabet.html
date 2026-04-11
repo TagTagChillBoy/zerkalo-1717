@@ -252,8 +252,6 @@
             'Ю': null,
             'Я': null
         };
-
-        // Proverbs for empty letters
         const emptyLetterTexts = [
             '«Кто хранит уста свои, тот хранит душу свою»',
             '«Умный молчит, а дурак говорит»',
@@ -273,7 +271,6 @@
 
                 if (data) {
                     if (Array.isArray(data)) {
-                        // Multiple words for this letter
                         data.forEach(wordData => {
                             content += `
                                 <div class="alphabet-word">${wordData.word}</div>
@@ -283,7 +280,6 @@
                             `;
                         });
                     } else {
-                        // Single word for this letter
                         content += `
                             <div class="alphabet-word">${data.word}</div>
                             <div class="alphabet-meaning">${data.meaning}</div>
@@ -292,7 +288,6 @@
                         `;
                     }
                 } else {
-                    // Empty letter
                     const randomProverb = emptyLetterTexts[Math.floor(Math.random() * emptyLetterTexts.length)];
                     content += `<div class="empty-text">На эту букву в XVIII веке не пришлось слов<br><br>${randomProverb}</div>`;
                 }
